@@ -15,11 +15,12 @@ app.use(cookieParser());
 // routers
 const authRouter = require('./routes/authRouter');
 const userRouter = require('./routes/userRouter');
-
+const doctorRouter = require('./routes/doctorRoute');
 
 // routing
 app.use('/api',authRouter);
 app.use('/api',userRouter);
+app.use('/api',doctorRouter);
 
 
 
