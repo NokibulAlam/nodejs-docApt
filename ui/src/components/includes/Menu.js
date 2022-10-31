@@ -48,7 +48,7 @@ const Menu = () => {
                                     signOut(() => {
                                         console.log("Hello");
                                     })
-                                }} as={Link} to="/" 
+                                }} as={Link} to="/signin" 
                                 >
                                     <span className='navItem'>Logout</span></Nav.Link>
                                 </>

@@ -1,7 +1,6 @@
 import React from 'react';
 import Menu from '../includes/Menu';
 import { Container, Col, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
 const Layout = ({ children }) => {
     return (

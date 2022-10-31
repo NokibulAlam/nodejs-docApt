@@ -16,6 +16,17 @@ router.route('/doctor/add/:userId')
 //     .delete(authController.requireSignIn, authController.isAuth, authController.isAdmin, doctorController.deleteDoctor);
 
 
+
+//Read single Doctor
+router.route('/doctor/:doctorId')
+    .get(doctorController.realSingleDoctor);
+
+//Read All Doctor
+router.route('/doctors')
+    .get(doctorController.realAllDoctor);
+
+
+
 // find doctor by ID
 router.param('doctorId', doctorController.doctorById);
 

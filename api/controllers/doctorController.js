@@ -1,5 +1,8 @@
 const Doctor = require('../models/Doctor');
 
+/* Internal Import */
+const {errorHandler} = require('../helpers/ErrorHandler');
+
 exports.createDoctor = (req, res, next) => {
     const doctor = new Doctor(req.body);
     // console.log(doctor);
@@ -28,4 +31,20 @@ exports.doctorById = (req, res, next, id) => {
         });
 };
 
-// Update Doctor
+
+// Fetch Single Doctor
+exports.realSingleDoctor = (req, res, next) => {
+    return res.json(req.doctor);
+};
+
+
+// Fetch All Doctor
+exports.realAllDoctor = (req, res, next) => {
+    Doctor.find()
+        .exec((err, doctors) => {
+            if(err) return res.status(400).json({
+                error: errorHandler(err)
+            });
+            return res.json(doctors);
+        });
+};
