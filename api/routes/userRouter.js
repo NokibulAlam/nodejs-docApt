@@ -20,9 +20,6 @@ router.route("/user/:userId")
 
 router.post('/appointment/book/:userId', authController.requireSignIn, authController.isAuth, async(req, res) => {
     try {
-        req.body.date = moment(req.body.date, "DD-MM-YYYY").toISOString();
-        req.body.time = moment(req.body.time, "HH:mm").toISOString();
-
         const appointment = new Appointment(req.body);
         await appointment.save();
 

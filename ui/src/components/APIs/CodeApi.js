@@ -25,3 +25,23 @@ export const getSingleDoctor = (doctorId) => {
             return err.json();
         });
 };
+
+// Book Appointment
+export const bookAppointment = (data, token) => {
+    return fetch(`${API}/appointment/book/${data.userId}`, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    })
+        .then((res) => {
+            return res.json();
+        })
+        .catch((err) => {
+            return err;
+        });
+    // console.log(JSON.stringify(data));
+}
