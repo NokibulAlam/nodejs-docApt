@@ -7,7 +7,7 @@ import moment from 'moment';
 
 // APIs
 import { isAuthenticate } from '../APIs/Auth';
-import { getSingleDoctor, bookAppointment } from '../APIs/CodeApi';
+import { getSingleDoctor, bookAppointment, checkAvailability } from '../APIs/CodeApi';
 
 //components
 import Layout from '../layouts/Layout';
@@ -26,6 +26,7 @@ const AppointmentPage = () => {
     // const [date, setDate] = useState();
     // const [time, setTime] = useState();
     const [success, setSuccess] = useState(false);
+    const [available, setAvailable] = useState(false);
     const [ values, setValues ] = useState({
         doctorId: doctorId,
         userId: user._id,
@@ -63,6 +64,21 @@ const AppointmentPage = () => {
         }
     }
 
+    const checkAppointment = async () => {
+        try {
+           await checkAvailability(values, token)
+                .then((data) => {
+                    if(data.error) console.log(data.error);
+                    else {
+                        console.log("Appoinement Available")
+                        setAvailable(true);
+                    }
+                });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const redirectToHome = () => {
         if(success) {
             return <Navigate to="/" />
@@ -90,6 +106,7 @@ const AppointmentPage = () => {
                             {/* <TimePickerComponent onChange={e => setTime(moment(e.target.value).format("HH:mm"))}></TimePickerComponent> */}
                             <TimePickerComponent onChange={e => setValues({ ...values, time: moment(e.target.value).format("HH:mm") })}></TimePickerComponent>
                         </Card.Text>
+                        <Button variant="primary" onClick={checkAppointment}>Check Apointment</Button>
                         <Button variant="primary" onClick={bookApt}>Book Apointment</Button>
                     </Card.Body>
                 </Card>

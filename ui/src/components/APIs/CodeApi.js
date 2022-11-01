@@ -44,4 +44,23 @@ export const bookAppointment = (data, token) => {
             return err;
         });
     // console.log(JSON.stringify(data));
+};
+
+
+// check Availability
+export const checkAvailability = (data, token) => {
+    return fetch(`${API}/appointment/availability`, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+        .then((res) => {
+            return res.json();
+        })
+        .catch((err) => {
+            return err;
+        });
 }
