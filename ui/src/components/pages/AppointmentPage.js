@@ -70,8 +70,8 @@ const AppointmentPage = () => {
                 .then((data) => {
                     if(data.error) console.log(data.error);
                     else {
-                        console.log("Appoinement Available")
-                        setAvailable(true);
+                        console.log(data);
+                        // setAvailable(true);
                     }
                 });
         } catch (error) {
