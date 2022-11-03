@@ -20,13 +20,12 @@ const AppointmentPage = () => {
 
     // doctorid from parameter
     const { doctorId } = useParams();
-    // console.log(doctorId);
 
     // State Variable
-    // const [date, setDate] = useState();
-    // const [time, setTime] = useState();
-    const [success, setSuccess] = useState(false);
+    const [booked, setBooked] = useState(false);
     const [available, setAvailable] = useState(false);
+    const [success, setSuccess] = useState(0);
+    const [error, setError] = useState(0);
     const [ values, setValues ] = useState({
         doctorId: doctorId,
         userId: user._id,
@@ -57,7 +56,7 @@ const AppointmentPage = () => {
            await bookAppointment(values, token)
                 .then((data) => {
                     if(data.error) console.log(data.error);
-                    else setSuccess(true);
+                    else setBooked(true);
                 });
         } catch (error) {
             console.log(error);
@@ -68,10 +67,16 @@ const AppointmentPage = () => {
         try {
            await checkAvailability(values, token)
                 .then((data) => {
-                    if(data.error) console.log(data.error);
+                    if(data.error) {
+                        setSuccess(0);
+                        setError(data.error);
+                        setAvailable(false);
+                    }
                     else {
-                        console.log(data);
-                        // setAvailable(true);
+                        // console.log(data);
+                        setSuccess(1);
+                        setError(0);
+                        setAvailable(true);
                     }
                 });
         } catch (error) {
@@ -80,16 +85,36 @@ const AppointmentPage = () => {
     }
 
     const redirectToHome = () => {
-        if(success) {
+        if(booked) {
             return <Navigate to="/" />
         }
-    }
+    };
+
+    // Show Error Message
+    const showError = () => {
+        return (
+            <div className='alert alert-danger text-center' style={{ display: error ? "" : "none" }}>
+                {error}
+            </div>
+        )
+    };
 
 
+    // Show Error Message
+    const showSuccess = () => {
+        return (
+            <div className='alert alert-info text-center' style={{ display: success ? "" : "none" }}>
+                Appointment Available
+            </div>
+        )
+    };
 
     return (
         <Layout>
             {redirectToHome()}
+            {showError()}
+            {showSuccess()}
+
             <Container>
                 <Card className="text-center">
                     <Card.Header>Book Your Appointment</Card.Header>
@@ -107,7 +132,11 @@ const AppointmentPage = () => {
                             <TimePickerComponent onChange={e => setValues({ ...values, time: moment(e.target.value).format("HH:mm") })}></TimePickerComponent>
                         </Card.Text>
                         <Button variant="primary" onClick={checkAppointment}>Check Apointment</Button>
-                        <Button variant="primary" onClick={bookApt}>Book Apointment</Button>
+                        <br/>
+                        {available && (
+                            <Button variant="primary" className='mt-3' onClick={bookApt}>Book Apointment</Button>
+                        )}
+                        
                     </Card.Body>
                 </Card>
             </Container>

@@ -38,26 +38,18 @@ router.post('/appointment/book/:userId', authController.requireSignIn, authContr
 
 router.post("/appointment/availability", async (req, res) => {
     try {
-        // const date = moment(req.body.date).toISOString();
-        // const fromTime = moment(req.body.time).subtract(1, "hours").toISOString();
-        // const toTime = moment(req.body.time).add(1, "hours").toISOString();
-
-        // console.log(fromTime, toTime);
-
         let { userId, doctorId, date, time } = req.body;
         date = moment(date, "DD-MM-YYYY");
         const fromTime = moment(time, "HH:mm").subtract(29, "minutes");
         const toTime = moment(time, "HH:mm").add(29, "minutes");
-        console.log(date, time, fromTime, toTime);
 
         const appointment = await Appointment.find({
             doctorId,
             date,
             time: {$gte: fromTime, $lte: toTime}
         });
-        console.log(appointment);
         if (appointment.length > 0) {
-            return res.json({ Error: "Appointment not Available" });
+            return res.json({ error: "Appointment not Available" });
         }
         else {
             return res.json({ message: "Appointment Available" })
