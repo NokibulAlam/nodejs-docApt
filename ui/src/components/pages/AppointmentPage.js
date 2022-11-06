@@ -146,7 +146,7 @@ const AppointmentPage = () => {
                                 <Card.Text>
                                     <b>You want to book an Appointment on {values.date} at {values.time}</b>
                                 </Card.Text>
-                                <Button variant="primary" className='mt-3' onClick={() => setAvailable(false) }>Change Time</Button>
+                                <Button variant="primary" className='mt-3' onClick={() => {setAvailable(false); setSuccess(0) }}>Change Time</Button>
                                 <br />
                                 <Button variant="primary" className='mt-3' onClick={bookApt}>Book Apointment</Button>
                             </>
