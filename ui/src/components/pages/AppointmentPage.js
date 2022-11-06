@@ -26,7 +26,7 @@ const AppointmentPage = () => {
     const [available, setAvailable] = useState(false);
     const [success, setSuccess] = useState(0);
     const [error, setError] = useState(0);
-    const [ values, setValues ] = useState({
+    const [values, setValues] = useState({
         doctorId: doctorId,
         userId: user._id,
         date: "",
@@ -53,9 +53,9 @@ const AppointmentPage = () => {
 
     const bookApt = async () => {
         try {
-           await bookAppointment(values, token)
+            await bookAppointment(values, token)
                 .then((data) => {
-                    if(data.error) console.log(data.error);
+                    if (data.error) console.log(data.error);
                     else setBooked(true);
                 });
         } catch (error) {
@@ -65,9 +65,9 @@ const AppointmentPage = () => {
 
     const checkAppointment = async () => {
         try {
-           await checkAvailability(values, token)
+            await checkAvailability(values, token)
                 .then((data) => {
-                    if(data.error) {
+                    if (data.error) {
                         setSuccess(0);
                         setError(data.error);
                         setAvailable(false);
@@ -85,7 +85,7 @@ const AppointmentPage = () => {
     }
 
     const redirectToHome = () => {
-        if(booked) {
+        if (booked) {
             return <Navigate to="/" />
         }
     };
@@ -124,19 +124,34 @@ const AppointmentPage = () => {
                             <b>Specialization: {doctorData.specialization} and Fees: {doctorData.consultancyFee}</b>
                         </Card.Text>
                         <Card.Text>
-                            {/* <b><input type="date" onChange={e => setDate(moment(e.target.value).format("DD-MM-YYYY"))} /></b> */}
-                            <b>Date: <input type="date" onChange={e => setValues({ ...values, date: moment(e.target.value).format("DD-MM-YYYY") })} /></b>
+                            <b>From: {doctorData.fromTime} - To: {doctorData.toTime}</b>
                         </Card.Text>
-                        <Card.Text style={{ width: "100px" }}>
-                            {/* <TimePickerComponent onChange={e => setTime(moment(e.target.value).format("HH:mm"))}></TimePickerComponent> */}
-                            <TimePickerComponent onChange={e => setValues({ ...values, time: moment(e.target.value).format("HH:mm") })}></TimePickerComponent>
-                        </Card.Text>
-                        <Button variant="primary" onClick={checkAppointment}>Check Apointment</Button>
-                        <br/>
-                        {available && (
-                            <Button variant="primary" className='mt-3' onClick={bookApt}>Book Apointment</Button>
+                        {!available && (
+                            <>
+                                <Card.Text>
+                                    {/* <b><input type="date" onChange={e => setDate(moment(e.target.value).format("DD-MM-YYYY"))} /></b> */}
+                                    <b>Date: <input type="date" onChange={e => setValues({ ...values, date: moment(e.target.value).format("DD-MM-YYYY") })} /></b>
+                                </Card.Text>
+                                <Card.Text style={{ width: "100px" }}>
+                                    {/* <TimePickerComponent onChange={e => setTime(moment(e.target.value).format("HH:mm"))}></TimePickerComponent> */}
+                                    <TimePickerComponent onChange={e => setValues({ ...values, time: moment(e.target.value).format("HH:mm") })}></TimePickerComponent>
+                                </Card.Text>
+                                <Button variant="primary" onClick={checkAppointment}>Check Apointment</Button>
+                            </>
                         )}
-                        
+
+                        <br />
+                        {available && (
+                            <>
+                                <Card.Text>
+                                    <b>You want to book an Appointment on {values.date} at {values.time}</b>
+                                </Card.Text>
+                                <Button variant="primary" className='mt-3' onClick={() => setAvailable(false) }>Change Time</Button>
+                                <br />
+                                <Button variant="primary" className='mt-3' onClick={bookApt}>Book Apointment</Button>
+                            </>
+                        )}
+
                     </Card.Body>
                 </Card>
             </Container>
