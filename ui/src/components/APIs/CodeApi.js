@@ -63,4 +63,20 @@ export const checkAvailability = (data, token) => {
         .catch((err) => {
             return err;
         });
+};
+
+export const getAllAppointments = (data, token) => {
+    return fetch(`${API}/appointments/${data._id}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    })
+    .then((res) => {
+        return res.json();
+    })
+    .catch((err) => {
+        return err.json();
+    });
 }

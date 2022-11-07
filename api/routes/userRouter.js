@@ -46,7 +46,7 @@ router.post("/appointment/availability", async (req, res) => {
         const appointment = await Appointment.find({
             doctorId,
             date,
-            time: {$gte: fromTime, $lte: toTime}
+            time: { $gte: fromTime, $lte: toTime }
         });
         if (appointment.length > 0) {
             return res.json({ error: "Appointment not Available" });
@@ -60,7 +60,17 @@ router.post("/appointment/availability", async (req, res) => {
             message: "Error booking appointment",
         });
     }
-})
+});
+
+
+router.get("/appointments/:userId", authController.requireSignIn, authController.isAuth, async (req, res) => {
+    try {
+        const appointment = await Appointment.find({ userId: req.profile._id });
+        return res.json(appointment);
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 
 // find user by ID

@@ -9,6 +9,7 @@ import { signOut, isAuthenticate } from '../APIs/Auth';
 
 const Menu = () => {
 
+    const {user} = isAuthenticate();
     // For Active Path Location in Menu
     const { pathname } = useLocation();
     const isActive = (path) => {
@@ -43,7 +44,7 @@ const Menu = () => {
                             {/* FOR LOGOUT */}
                             {isAuthenticate() && (
                                 <>
-                                {" "}
+                                <Nav.Link as={Link} to={`/appointments/${user._id}`} style={isActive(`/appointments/${user._id}`)}><span className='navItem'>Appointments</span></Nav.Link> 
                                 <Nav.Link onClick={() => {
                                     signOut(() => {
                                         console.log("Hello");

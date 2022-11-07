@@ -7,6 +7,7 @@ import Home from './components/pages/Home';
 import Signin from './components/pages/Signin';
 import Signup from './components/pages/Signup';
 import AppointmentPage from './components/pages/AppointmentPage';
+import UserAppointments from './components/pages/UserAppointments';
 
 //protected Routing
 import PrivateRoute from './components/Private Routes/PrivateRoute';
@@ -21,6 +22,10 @@ const Routing = () => {
 
                 <Route exact path={'/book-appointment/:doctorId'} element={<PrivateRoute />}>
                     <Route path={'/book-appointment/:doctorId'} element={<AppointmentPage />} />
+                </Route>
+
+                <Route exact path={'/appointments/:userId'} element={<PrivateRoute />}>
+                    <Route path={'/appointments/:userId'} element={<UserAppointments />} />
                 </Route>
 
                 <Route path={'/signup'} element={<Signup />} />
