@@ -19,11 +19,11 @@ router.route('/doctor/add/:userId')
 
 //Read single Doctor
 router.route('/doctor/:doctorId')
-    .get(doctorController.realSingleDoctor);
+    .get(doctorController.readSingleDoctor);
 
 //Read All Doctor
 router.route('/doctors')
-    .get(doctorController.realAllDoctor);
+    .get(doctorController.readAllDoctor);
 
 
 

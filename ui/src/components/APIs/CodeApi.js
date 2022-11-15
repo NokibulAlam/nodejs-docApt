@@ -79,4 +79,5 @@ export const getAllAppointments = (data, token) => {
     .catch((err) => {
         return err.json();
     });
-}
+};
+

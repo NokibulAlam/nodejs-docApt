@@ -33,13 +33,13 @@ exports.doctorById = (req, res, next, id) => {
 
 
 // Fetch Single Doctor
-exports.realSingleDoctor = (req, res, next) => {
+exports.readSingleDoctor = (req, res, next) => {
     return res.json(req.doctor);
 };
 
 
 // Fetch All Doctor
-exports.realAllDoctor = (req, res, next) => {
+exports.readAllDoctor = (req, res, next) => {
     Doctor.find()
         .exec((err, doctors) => {
             if(err) return res.status(400).json({
